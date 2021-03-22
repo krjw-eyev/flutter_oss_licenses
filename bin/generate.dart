@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:meta/meta.dart';
 import 'package:path/path.dart' as path;
 import 'package:yaml/yaml.dart';
 
@@ -72,7 +71,7 @@ Future<Map<String, dynamic>> generateLicenseFile({required String projectRoot}) 
 
   final json = <String, dynamic>{};
 
-  for (String name in packages.keys as Iterable<String>) {
+  for (String name in packages.keys) {
     final package = await Package.fromMap(name, packages[name]);
     if (package == null || package.name == null) {
       continue;
@@ -198,10 +197,10 @@ class Package {
         description: yaml['description'],
         homepage: yaml['homepage'],
         authors: yaml['authors']?.cast<String>()?.toList() ?? (yaml['author'] != null ? [yaml['author']] : []),
-        version: version?.trim(),
-        license: license?.trim()?.replaceAll('\r\n', '\n'),
-        isMarkdown: isMarkdown ?? false,
-        isSdk: isSdk ?? false,
+        version: version.trim(),
+        license: license.trim().replaceAll('\r\n', '\n'),
+        isMarkdown: isMarkdown,
+        isSdk: isSdk,
         isDirectDependency: isDirectDependency);
   }
 }
